@@ -6,6 +6,8 @@ It utilizes [Mercury Parser](https://mercury.postlight.com/web-parser/) to extra
 
 Tested on BBC, The New York Times, The Verge, Cult of Mac, iDownloadBlog etc, in which af_readability can't handle the content properly.
 
+**Some feeds may not render properly, if Mercury can't handle it.** Eg. BBC video-only feeds.
+
 Installation
 ------------------------
 
@@ -16,7 +18,7 @@ Configuration
 The configuration is identical to af_readability, except you have to save your API key.
 
 1. Enable the plugin *mercury_fulltext* in **Preferences**.
-2. Save your *Mercury API key* in the settings under **Feeds** tab.
+2. Save your *Mercury API key* (apply for free [here](https://mercury.postlight.com/web-parser/)) in the settings under **Feeds** tab.
 3. Configure for feeds under **Plugins** tab of the **Edit Feed** window.
 
 References
