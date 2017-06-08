@@ -143,6 +143,7 @@ class mercury_fulltext extends Plugin
 		curl_setopt($ch, CURLOPT_URL, 'https://mercury.postlight.com/parser?url=' . $url);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 		curl_setopt($ch, CURLOPT_HTTPHEADER, $request_headers);
+		curl_setopt($ch, CURLOPT_ENCODING, "UTF-8");
 		$output = json_decode(curl_exec($ch));
 		curl_close($ch);
 		$extracted_content = $output->content;
