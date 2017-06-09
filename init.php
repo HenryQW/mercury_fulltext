@@ -177,7 +177,7 @@ class mercury_fulltext extends Plugin
 			'Content-Type: application/json',
 			'Content-Length: ' . strlen($data_string)
 		));
-		$result = curl_exec($ch);
+		$result = utf8_decode(curl_exec($ch));
 		return $result;
 		}
 
