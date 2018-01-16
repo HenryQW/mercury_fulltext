@@ -104,7 +104,7 @@ class mercury_fulltext extends Plugin
 		{
 		$enabled_feeds = $this->host->get($this, "enabled_feeds");
 		if (!is_array($enabled_feeds)) $enabled_feeds = array();
-		$enable = checkbox_to_sql_bool($_POST["mercury_fulltext_enabled"]) == 'true';
+		$enable = checkbox_to_sql_bool($_POST["mercury_fulltext_enabled"]);
 		$key = array_search($feed_id, $enabled_feeds);
 		if ($enable)
 			{
@@ -148,9 +148,6 @@ class mercury_fulltext extends Plugin
 		curl_close($ch);
 		$extracted_content = $output->content;
 
-		// For debugging
-		// $this->slack($extracted_content);
-
 		if ($extracted_content)
 			{
 			$article["content"] = $extracted_content;
@@ -159,27 +156,6 @@ class mercury_fulltext extends Plugin
 		return $article;
 		}
 
-	function slack($message)
-		{
-		$data = array(
-			'text' => $message
-		);
-		$data_string = json_encode($data);
-
-		$slack = ''; // Slack webhook URL
-
-		$ch = curl_init($slack);
-		curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
-		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-		curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-		curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-			'Content-Type: application/json',
-			'Content-Length: ' . strlen($data_string)
-		));
-		$result = utf8_decode(curl_exec($ch));
-		return $result;
-		}
 
 	function hook_article_filter($article)
 		{
@@ -199,14 +175,14 @@ class mercury_fulltext extends Plugin
 	function filter_unknown_feeds($enabled_feeds)
 		{
 		$tmp = array();
-		foreach($enabled_feeds as $feed)
-			{
-			$result = db_query("SELECT id FROM ttrss_feeds WHERE id = '$feed' AND owner_uid = " . $_SESSION["uid"]);
-			if (db_num_rows($result) != 0)
-				{
+		foreach ($enabled_feeds as $feed) {
+			$sth = $this->pdo->prepare("SELECT id FROM ttrss_feeds WHERE id = ? AND owner_uid = ?");
+			$sth->execute([$feed, $_SESSION['uid']]);
+
+			if ($row = $sth->fetch()) {
 				array_push($tmp, $feed);
-				}
 			}
+		}
 
 		return $tmp;
 		}
