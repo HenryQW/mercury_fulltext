@@ -1,6 +1,6 @@
 mercury_fulltext
 ==============
-A Tiny Tiny RSS plugin written for [tt-rss](https://tt-rss.org/fox/tt-rss) as a replacement for the grandpa-old plugin [af_readability](https://tt-rss.org/fox/tt-rss), which doesn't work well for many RSS sites I subscribe to.
+A Tiny Tiny RSS plugin written for [tt-rss](https://tt-rss.org) as a replacement for the grandpa-old plugin [af_readability](https://git.tt-rss.org/fox/tt-rss/src/master/plugins/af_readability), which doesn't work well for many RSS sites I subscribe to.
 
 It utilizes [Mercury Parser](https://mercury.postlight.com/web-parser/) to extract the full content for feeds. An API key is required to use this plugin, which is available for free [here](https://mercury.postlight.com/web-parser/).
 
@@ -24,6 +24,6 @@ The configuration is identical to af_readability, except you have to save your A
 References
 ------------------------
 
-* The plugin is modified based on [af_readability](https://tt-rss.org/fox/tt-rss).
+* The plugin is modified based on [af_readability](https://git.tt-rss.org/fox/tt-rss/src/master/plugins/af_readability).
 * [Mercury Parser](https://mercury.postlight.com/web-parser/).
 
