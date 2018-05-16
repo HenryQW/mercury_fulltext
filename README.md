@@ -17,9 +17,9 @@ Configuration
 ------------------------
 The configuration is identical to af_readability, except you have to save your API key.
 
-1. Enable the plugin *mercury_fulltext* in **Preferences**.
-2. Save your *Mercury API key* (apply for free [here](https://mercury.postlight.com/web-parser/)) in the settings under **Feeds** tab.
-3. Configure for feeds under **Plugins** tab of the **Edit Feed** window.
+1. Enable the plugin *mercury_fulltext* in **Preferences/Plugins**.
+2. Save your *Mercury API key* (apply for free [here](https://mercury.postlight.com/web-parser/)) in the *Mercury_fulltext settings* under **Feeds** tab.
+3. Configure for feeds under **Plugins** tab of the **Edit Feed** window (you can right click your feed to get there).
 
 References
 ------------------------
