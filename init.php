@@ -8,7 +8,7 @@ class mercury_fulltext extends Plugin
 		return array(
 			1.0,
 			"Try to get fulltext of the article using Mercury Parser",
-			"Qiru Wang"
+			"https://github.com/HenryQW/mercury_fulltext/"
 		);
 		}
 
