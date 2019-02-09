@@ -38,7 +38,12 @@ class mercury_fulltext extends Plugin
 	function hook_prefs_tab($args)
 		{
 		if ($args != "prefFeeds") return;
-		print "<div dojoType=\"dijit.layout.AccordionPane\" title=\"" . __('Mercury_fulltext settings (mercury_fulltext)') . "\">";
+
+		if (version_compare(PHP_VERSION, '5.6.0', '<')) {
+			print_error("This plugin requires PHP version 5.6.");
+		}
+		print "<div dojoType=\"dijit.layout.AccordionPane\" 
+		title=\"<i class='material-icons'>extension</i> " . __('Mercury_fulltext settings (mercury_fulltext)') . "\">";
 		print_notice("Enable the plugin for specific feeds in the feed editor.");
 		print "<form dojoType=\"dijit.form.Form\">";
 		print "<script type=\"dojo/method\" event=\"onSubmit\" args=\"evt\">
@@ -61,7 +66,7 @@ class mercury_fulltext extends Plugin
 		print_hidden("plugin", "mercury_fulltext");
 		$mercury_API = $this->host->get($this, "mercury_API");
 		print "<input dojoType='dijit.form.ValidationTextBox' required='1' name='mercury_API' value='" . $mercury_API . "'/>";
-		print "&nbsp;<label for=\"mercury_API\">" . __("Get your own API key here: https://mercury.postlight.com/web-parser/") . "</label>";
+		print "&nbsp;<label for=\"mercury_API\">" . __("Postlight has stopped providing new API key, you can continue using your current API key.") . "</label>";
 		print "<p>";
 		print_button("submit", __("Save"));
 		print "</form>";
