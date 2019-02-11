@@ -4,11 +4,13 @@ A Tiny Tiny RSS plugin written for [tt-rss](https://tt-rss.org) as a replacement
 
 It utilizes [Mercury Parser](https://mercury.postlight.com/web-parser/) to extract the full content for feeds. ~~An API key is required to use this plugin, which is available for free [here](https://mercury.postlight.com/web-parser/)~~. 
 
-It's made open source on GitHub [postlight/mercury-parser](https://github.com/postlight/mercury-parser), you'are advised to host your own mercury instance, thus **this repo will be deprecated** in the future. For a dockerized self-host solution, please visit my repo [mercury-parser-api](https://github.com/HenryQW/mercury-parser-api).
+It's made open source on GitHub [postlight/mercury-parser](https://github.com/postlight/mercury-parser).
 
 ## Warning
 
 **Mercury API will be shutting down** in the future, please read more [here](https://postlight.com/trackchanges/mercury-goes-open-source)
+
+You'are advised to host your own mercury instance, thus **this repo will be deprecated** in the future. For a dockerized self-host solution, please visit my repo [mercury-parser-api](https://github.com/HenryQW/mercury-parser-api).
 
 Tested on BBC, The New York Times, The Verge, Cult of Mac, iDownloadBlog etc, in which af_readability can't handle the content properly.
 
