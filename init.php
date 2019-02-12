@@ -6,8 +6,8 @@ class mercury_fulltext extends Plugin
 	function about()
 		{
 		return array(
-			1.0,
-			"Try to get fulltext of the article using Mercury Parser",
+			2.0,
+			"Try to get fulltext of the article using Self-hosted Mercury Parser API",
 			"https://github.com/HenryQW/mercury_fulltext/"
 		);
 		}
@@ -22,7 +22,7 @@ class mercury_fulltext extends Plugin
 	function save()
 		{
 		$this->host->set($this, "mercury_API", $_POST["mercury_API"]);
-		echo __("API key saved.");
+		echo __("Your self-hosted Mercury Parser API Endpoint.");
 		}
 
 	function init($host)
@@ -66,7 +66,7 @@ class mercury_fulltext extends Plugin
 		print_hidden("plugin", "mercury_fulltext");
 		$mercury_API = $this->host->get($this, "mercury_API");
 		print "<input dojoType='dijit.form.ValidationTextBox' required='1' name='mercury_API' value='" . $mercury_API . "'/>";
-		print "&nbsp;<label for=\"mercury_API\">" . __("Postlight has stopped providing new API key, you can continue using your current API key.") . "</label>";
+		print "&nbsp;<label for=\"mercury_API\">" . __("Your self-hosted Mercury Parser API address (including the port number), eg https://mercury.parser.com:3000.") . "</label>";
 		print "<p>";
 		print_button("submit", __("Save"));
 		print "</form>";
@@ -118,7 +118,7 @@ class mercury_fulltext extends Plugin
 				array_push($enabled_feeds, $feed_id);
 				}
 			}
-		  else
+			else
 			{
 			if ($key !== FALSE)
 				{
@@ -141,13 +141,10 @@ class mercury_fulltext extends Plugin
 		{
 		$ch = curl_init();
 		$url = $article['link'];
-		$api_key = $this->host->get($this, "mercury_API");
-		$request_headers = array();
-		$request_headers[] = 'x-api-key: ' . $api_key;
+		$api_endpoint = $this->host->get($this, "mercury_API");
 		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-		curl_setopt($ch, CURLOPT_URL, 'https://mercury.postlight.com/parser?url=' . $url);
+		curl_setopt($ch, CURLOPT_URL, $api_endpoint.'/parser?url=' . $url);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-		curl_setopt($ch, CURLOPT_HTTPHEADER, $request_headers);
 		curl_setopt($ch, CURLOPT_ENCODING, "UTF-8");
 		$output = json_decode(curl_exec($ch));
 		curl_close($ch);
