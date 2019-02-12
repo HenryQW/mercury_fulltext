@@ -8,9 +8,9 @@ It's made open source on GitHub [postlight/mercury-parser](https://github.com/po
 
 ## Warning
 
-**Mercury API will be shutting down** in the future, please read more [here](https://postlight.com/trackchanges/mercury-goes-open-source)
+**Mercury API will be shutting down on April 15, 2019**, please read more [here](https://mailchi.mp/postlight/action-required-mercury-parser-api-will-sunset-in-60-days)
 
-You'are advised to host your own mercury instance, thus **this repo will be deprecated** in the future. For a dockerized self-host solution, please visit my repo [mercury-parser-api](https://github.com/HenryQW/mercury-parser-api).
+You'are advised to host your own mercury instance. For a dockerized self-host solution, please visit my repo [mercury-parser-api](https://github.com/HenryQW/mercury-parser-api).
 
 Tested on BBC, The New York Times, The Verge, Cult of Mac, iDownloadBlog etc, in which af_readability can't handle the content properly.
 
