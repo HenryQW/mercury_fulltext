@@ -1,4 +1,6 @@
 # mercury_fulltext
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FHenryQW%2Fmercury_fulltext.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2FHenryQW%2Fmercury_fulltext?ref=badge_shield)
+
 
 A Tiny Tiny RSS plugin written for [tt-rss](https://tt-rss.org) as a replacement for the grandpa-old plugin [af_readability](https://git.tt-rss.org/fox/tt-rss/src/master/plugins/af_readability), which doesn't work well for many RSS sites I subscribe to.
 
@@ -30,3 +32,7 @@ The configuration is identical to af_readability, except you have to save your A
 
 * The plugin is modified based on [af_readability](https://git.tt-rss.org/fox/tt-rss/src/master/plugins/af_readability).
 * [postlight/mercury-parser-api](https://github.com/postlight/mercury-parser-api).
+
+
+## License
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FHenryQW%2Fmercury_fulltext.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2FHenryQW%2Fmercury_fulltext?ref=badge_large)
