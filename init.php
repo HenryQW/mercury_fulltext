@@ -184,7 +184,7 @@
     {
         $ch = curl_init();
         
-        $url = $article['link '];
+        $url = $article['link'];
         
         $api_endpoint = $this
             ->host
