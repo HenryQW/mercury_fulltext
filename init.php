@@ -79,7 +79,7 @@
                 ->host
                 ->get($this, "mercury_API");
 
-            print "<input dojoType='dijit.form.ValidationTextBox' required='1
+            print "<input dojoType='dijit.form.ValidationTextBox' required='1' name='mercury_API' value='$mercury_API'/>";
     ' name='mercury_API' value=' " . $mercury_API . " '/>";
 
             print "<label for='mercury_API'>" . __("Your self-hosted Mercury Parser API address (including the port number), eg https://mercury.parser.com:3000.") . "</label>";
