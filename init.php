@@ -190,7 +190,7 @@
             ->get($this, "mercury_API");
             
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-        curl_setopt($ch, CURLOPT_URL, rtrim($api_endpoint, '/') . '/parser?url=' . $url);
+        curl_setopt($ch, CURLOPT_URL, rtrim($api_endpoint, '/') . '/parser?url=' . rawurlencode($url));
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_ENCODING, "UTF-8");
         
