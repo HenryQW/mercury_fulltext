@@ -185,6 +185,34 @@
         
         $url = $article['link'];
         
+        $redirected = false;
+
+        if (preg_match("/www\\.reddit\\.com/", $article["link"]) ||
+            preg_match("/news\\.ycombinator\\.com/", $article["content"]))
+        {
+            $redirected = true;
+
+            $dom = new domDocument;
+
+            $dom->loadHtml($article["content"]);
+
+            $links = $dom->getElementsByTagName('a');
+
+            foreach ($links as $link)
+            {
+                if (preg_match("/link/i", $link->nodeValue)) 
+                {
+                    $url = $link->getAttribute("href");
+                }
+                else if (preg_match("/comments/i", $link->nodeValue)) 
+                {
+                    $comment_url = $link->getAttribute("href");
+                }
+            }
+
+            $source = parse_url($url, PHP_URL_HOST);
+        }
+
         $api_endpoint = $this
             ->host
             ->get($this, "mercury_API");
@@ -202,7 +230,15 @@
         
         if ($extracted_content)
         {
-            $article["content"] = $extracted_content;
+            if ($redirected) 
+            {
+                $article["content"] = "<p><pre>Source: $source</pre></p>" .  $extracted_content . "<p><a href='$comment_url'>Comments</a></p>";
+                $article["link"] = $url;
+            }
+            else
+            {
+                $article["content"] = $extracted_content;
+            }
         }
 
         return $article;
