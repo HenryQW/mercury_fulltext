@@ -1,4 +1,5 @@
-<?php class mercury_fulltext extends Plugin
+<?php
+class mercury_fulltext extends Plugin
 {
     private $host;
     
@@ -35,9 +36,25 @@
         $host->add_hook($host::HOOK_PREFS_TAB, $this);
         $host->add_hook($host::HOOK_PREFS_EDIT_FEED, $this);
         $host->add_hook($host::HOOK_PREFS_SAVE_FEED, $this);
+
+        $host->add_hook($host::HOOK_ARTICLE_BUTTON, $this);
         
-        $host->add_filter_action($this, "action_inline", __("Inline content"));
+        $host->add_filter_action($this, "mercury_fulltext", __("Mercury Fulltext"));
     }
+
+    public function get_js()
+    {
+        return file_get_contents(__DIR__ . "/init.js");
+    }
+
+    public function hook_article_button($line)
+    {
+        return "<i class='material-icons'
+			style='cursor : pointer' onclick='Plugins.mercury_fulltext.extract(".$line["id"].")'
+			title='".__('Extract fulltext via Mercury')."'>subject</i>";
+    }
+
+
     public function hook_prefs_tab($args)
     {
         if ($args != "prefFeeds") {
@@ -47,10 +64,10 @@
         print "<div dojoType='dijit.layout.AccordionPane' 
             title=\"<i class='material-icons'>extension</i> ".__('Mercury Fulltext settings (mercury_fulltext)')."\">";
 
-        if (version_compare(PHP_VERSION, '5.6.0', '<')) {
-            print_error("This plugin requires PHP version 5.6.");
+        if (version_compare(PHP_VERSION, '7.0.0', '<')) {
+            print_error("This plugin requires PHP 7.0.");
         } else {
-            print "<h2>" . __("Global settings") . "</h2>";
+            print "<h2>" . __("Per feed auto-extraction") . "</h2>";
 
             print_notice("Enable for specific feeds in the feed editor.");
 
@@ -82,9 +99,9 @@
 
             print "<input dojoType='dijit.form.ValidationTextBox' required='1' name='mercury_API' value='$mercury_API'/>";
 
-            print "<label for='mercury_API'>" . __("Your self-hosted Mercury Parser API address (including the port number), eg https://mercury.parser.com:3000.") . "</label>";
+            print "&nbsp;<label for='mercury_API'>" . __("Your self-hosted Mercury Parser API address (including the port number), eg https://mercury.parser.com:3000.") . "</label>";
 
-            print "<p>";
+            print "<p>Read the <a href='http://ttrss.henry.wang/#mercury-fulltext-extraction'>documents</a>.</p>";
             print_button("submit", __("Save"), "class='alt-primary'");
             print "</form>";
 
@@ -180,18 +197,16 @@
         return $this->process_article($article);
     }
 
-    public function process_article($article)
+    public function send_request($link)
     {
         $ch = curl_init();
-        
-        $url = $article['link'];
         
         $api_endpoint = $this
             ->host
             ->get($this, "mercury_API");
             
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-        curl_setopt($ch, CURLOPT_URL, rtrim($api_endpoint, '/') . '/parser?url=' . rawurlencode($url));
+        curl_setopt($ch, CURLOPT_URL, rtrim($api_endpoint, '/') . '/parser?url=' . rawurlencode($link));
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_ENCODING, "UTF-8");
         
@@ -199,10 +214,15 @@
         
         curl_close($ch);
         
-        $extracted_content = $output->content;
-        
-        if ($extracted_content) {
-            $article["content"] = $extracted_content;
+        return $output;
+    }
+    
+    public function process_article($article)
+    {
+        $output  = $this->send_request($article["link"]);
+
+        if ($output->content) {
+            $article["content"] = $output->content;
         }
 
         return $article;
@@ -248,5 +268,25 @@
         }
 
         return $tmp;
+    }
+
+    public function extract()
+    {
+        $article_id = (int) $_REQUEST["param"];
+
+        $sth = $this->pdo->prepare("SELECT link FROM ttrss_entries WHERE id = ?");
+        $sth->execute([$article_id]);
+
+        if ($row = $sth->fetch()) {
+            $output = $this->send_request($row["link"]);
+        }
+
+        $result=[];
+
+        if ($output->content) {
+            $result["content"] = $output->content;
+        }
+
+        print json_encode($result);
     }
 }
