@@ -127,7 +127,8 @@ class mercury_fulltext extends Plugin
                 foreach ($enabled_feeds as $f) {
                     print "<li><i class='material-icons'>rss_feed</i> <a href='#'
                         onclick='CommonDialogs.editFeed($f)'>".
-                        Feeds::getFeedTitle($f) . "</a></li>";
+                        Feeds::_get_title($f) . "</a></li>";
+
                 }
 
                 print "</ul>";
