@@ -89,9 +89,9 @@ class mercury_fulltext extends Plugin
                 }
                 </script>";
 
-            print_hidden("op", "pluginhandler");
-            print_hidden("method", "save");
-            print_hidden("plugin", "mercury_fulltext");
+            print \Controls\hidden_tag("op", "pluginhandler");
+            print \Controls\hidden_tag("method", "save");
+            print \Controls\hidden_tag("plugin", "mercury_fulltext");
 
             $mercury_API = $this
                 ->host
@@ -102,7 +102,7 @@ class mercury_fulltext extends Plugin
             print "&nbsp;<label for='mercury_API'>" . __("Your self-hosted Mercury Parser API address (including the port number), eg https://mercury.parser.com:3000.") . "</label>";
 
             print "<p>Read the <a href='http://ttrss.henry.wang/#mercury-fulltext-extraction'>documents</a>.</p>";
-            print_button("submit", __("Save"), "class='alt-primary'");
+            print "<button dojoType=\"dijit.form.Button\" type=\"submit\" class=\"alt-primary\">".__('Save')."</button>";
             print "</form>";
 
             $enabled_feeds = $this
