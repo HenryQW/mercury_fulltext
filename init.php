@@ -76,16 +76,9 @@ class mercury_fulltext extends Plugin
             print "<script type='dojo/method' event='onSubmit' args='evt'>
                 evt.preventDefault();
                 if (this.validate()) {
-                    console.log(dojo.objectToQuery(this.getValues()));
-                    new Ajax.Request('backend.php', {
-                        parameters: dojo.objectToQuery(this.getValues()),
-                        onComplete: function(transport) {
+                xhrPost(\"backend.php\", this.getValues(), (transport) => {
                             Notify.info(transport.responseText);
-                        }
-                    });
-
-                    // this.reset();
-
+                        })
                 }
                 </script>";
 
