@@ -28,7 +28,7 @@ class mercury_fulltext extends Plugin
     {
         $this->host = $host;
         
-        if (version_compare(PHP_VERSION, '5.6.0', '<')) {
+        if (version_compare(PHP_VERSION, '7.0.0', '<')) {
             return;
         }
 
@@ -193,21 +193,21 @@ class mercury_fulltext extends Plugin
 
     public function send_request($link)
     {
-        $ch = curl_init();
-        
         $api_endpoint = $this
             ->host
             ->get($this, "mercury_API");
-            
+
+        $ch = curl_init(rtrim($api_endpoint, '/') . '/parser?url=' . rawurlencode($link));
+
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-        curl_setopt($ch, CURLOPT_URL, rtrim($api_endpoint, '/') . '/parser?url=' . rawurlencode($link));
+
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_ENCODING, "UTF-8");
         
         $output = json_decode(curl_exec($ch));
         
         curl_close($ch);
-        
+
         return $output;
     }
     
@@ -266,7 +266,8 @@ class mercury_fulltext extends Plugin
 
     public function extract()
     {
-        $article_id = (int) $_REQUEST["param"];
+        $article_id = (int) $_REQUEST["id"];
+
 
         $sth = $this->pdo->prepare("SELECT link FROM ttrss_entries WHERE id = ?");
         $sth->execute([$article_id]);
@@ -274,7 +275,6 @@ class mercury_fulltext extends Plugin
         if ($row = $sth->fetch()) {
             $output = $this->send_request($row["link"]);
         }
-
         $result=[];
 
         if ($output->content) {
