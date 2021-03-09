@@ -76,7 +76,7 @@ class mercury_fulltext extends Plugin
             print "<script type='dojo/method' event='onSubmit' args='evt'>
                 evt.preventDefault();
                 if (this.validate()) {
-                xhrPost(\"backend.php\", this.getValues(), (transport) => {
+                xhr.post(\"backend.php\", this.getValues(), (transport) => {
                             Notify.info(transport.responseText);
                         })
                 }
