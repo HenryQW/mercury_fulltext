@@ -22,7 +22,8 @@ class mercury_fulltext extends Plugin
         $this
             ->host
             ->set($this, "mercury_API", $_POST["mercury_API"]);
-        echo __("Your self-hosted Mercury Parser API Endpoint.");
+        echo __("Your self-hosted Mercury Parser API Endpoint has been saved.");
+
     }
     public function init($host)
     {
@@ -203,9 +204,9 @@ class mercury_fulltext extends Plugin
 
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_ENCODING, "UTF-8");
-        
+
         $output = json_decode(curl_exec($ch));
-        
+
         curl_close($ch);
 
         return $output;
