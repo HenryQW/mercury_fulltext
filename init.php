@@ -216,7 +216,7 @@ class mercury_fulltext extends Plugin
     {
         $output  = $this->send_request($article["link"]);
 
-        if ($output->content) {
+        if (property_exists($output, 'content') && $output->content) {
             $article["content"] = $output->content;
         }
 
@@ -278,7 +278,7 @@ class mercury_fulltext extends Plugin
         }
         $result=[];
 
-        if ($output->content) {
+        if (property_exists($output, 'content') && $output->content) {
             $result["content"] = $output->content;
         }
 
