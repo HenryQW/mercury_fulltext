@@ -198,7 +198,7 @@ class mercury_fulltext extends Plugin
             ->host
             ->get($this, "mercury_API");
 
-        $ch = curl_init(rtrim($api_endpoint, '/') . '/parser?url=' . rawurlencode($link));
+        $ch = curl_init(rtrim($api_endpoint, '/') . '/parser?url=' . $this->process_link($link));
 
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
 
@@ -283,5 +283,36 @@ class mercury_fulltext extends Plugin
         }
 
         print json_encode($result);
+    }
+
+    private function encode_uri($url)
+    {
+        // From: https://stackoverflow.com/a/6059053
+        // http://php.net/manual/en/function.rawurlencode.php
+        // https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/encodeURI
+        $unescaped = array(
+            '%2D'=>'-','%5F'=>'_','%2E'=>'.','%21'=>'!', '%7E'=>'~',
+            '%2A'=>'*', '%27'=>"'", '%28'=>'(', '%29'=>')'
+        );
+        $reserved = array(
+            '%3B'=>';','%2C'=>',','%2F'=>'/','%3F'=>'?','%3A'=>':',
+            '%40'=>'@','%26'=>'&','%3D'=>'=','%2B'=>'+','%24'=>'$'
+        );
+        $score = array(
+            '%23'=>'#'
+        );
+        return strtr(rawurlencode($url), array_merge($reserved,$unescaped,$score));
+    
+    }
+
+    private function process_link($url)
+    {
+        // Encode url when not encoded
+        // Characters defined in RFC 3986, Appendix A
+        if (!preg_match('/^[0-9a-zA-Z!#$%&\'()*+,\-.\/:;=?@\[\]_~]*$/', $url)) {
+            $url = $this->encode_uri($url);
+        }
+        
+        return rawurlencode($url);
     }
 }
