@@ -77,15 +77,13 @@ class mercury_fulltext extends Plugin
             print "<script type='dojo/method' event='onSubmit' args='evt'>
                 evt.preventDefault();
                 if (this.validate()) {
-                xhr.post(\"backend.php\", this.getValues(), (transport) => {
-                            Notify.info(transport.responseText);
+                xhr.post(\"backend.php\", this.getValues(), (reply) => {
+                            Notify.info(reply);
                         })
                 }
                 </script>";
 
-            print \Controls\hidden_tag("op", "pluginhandler");
-            print \Controls\hidden_tag("method", "save");
-            print \Controls\hidden_tag("plugin", "mercury_fulltext");
+            print \Controls\pluginhandler_tags($this, "save");
 
             $mercury_API = $this
                 ->host
